@@ -9,7 +9,7 @@ def get_calendar_data(pyvo_events_url):
     return calendar_raw_data.content
 
 
-def parse_calendar_data(pyvo_events_url):
+def get_future_events(pyvo_events_url):
     data = get_calendar_data(pyvo_events_url)
     gcal = Calendar.from_ical(data)
     future_events = []
@@ -19,7 +19,7 @@ def parse_calendar_data(pyvo_events_url):
         # or not to have any timezone information for the comparison to work
         if (
             event.name == "VEVENT"
-            and event.get("dtstart").dt.replace(tzinfo=None) > datetime.today()
+            and event["dtstart"].dt.replace(tzinfo=None) > datetime.today()
         ):
             future_events.append(event)
     return future_events

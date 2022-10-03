@@ -1,30 +1,31 @@
 from datetime import datetime
 
-from calendar_data.data import parse_calendar_data
+from calendar_data.data import get_future_events
 from telegram_bot.bot import send_message
+
+PRAGUE_CHAT_ID = "-1001837942773"  # test chat
 
 
 def send_message_to_prague_channel():
-    events = parse_calendar_data("https://pyvo.cz/api/series/praha-pyvo.ics")
-    prague_chat_id = "-1001837942773"  # test chat
+    events = get_future_events("https://pyvo.cz/api/series/praha-pyvo.ics")
     for event in events:
-        summary = event.get("summary").replace("(", "").replace(")", "")
-        event_date = event.get("dtstart").dt.replace(tzinfo=None).date()
-        output_event_date = event.get("dtstart").dt.date().strftime("%d.%m.%Y")
-        date_difference = abs(event_date - datetime.today().date()).days
+        summary = event["summary"].replace("(", "").replace(")", "")
+        event_date = event["dtstart"].dt.replace(tzinfo=None).date()
+        output_event_date = event["dtstart"].dt.date().strftime("%d.%m.%Y")
+        date_difference = (event_date - datetime.today().date()).days
         match date_difference:
             case 7:
                 send_message(
-                    prague_chat_id,
+                    PRAGUE_CHAT_ID,
                     f"Next week! {output_event_date}, {summary}",
                 )
             case 3:
                 send_message(
-                    prague_chat_id,
+                    PRAGUE_CHAT_ID,
                     f"In three days! {output_event_date}, {summary}",
                 )
             case 0:
                 send_message(
-                    prague_chat_id,
+                    PRAGUE_CHAT_ID,
                     f"Tonight! {output_event_date}, {summary}",
                 )
