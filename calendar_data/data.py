@@ -12,7 +12,6 @@ def get_calendar_data(pyvo_events_url):
 def get_future_events(pyvo_events_url):
     data = get_calendar_data(pyvo_events_url)
     gcal = Calendar.from_ical(data)
-    future_events = []
     for event in gcal.walk():
         # tzinfo=None removes timezone information from events,
         # as both datetimes need to be either in the same timezone
