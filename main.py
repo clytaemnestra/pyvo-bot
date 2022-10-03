@@ -1,4 +1,4 @@
-from cities.prague_pyvo import send_message_to_prague_channel
+from telegram_bot.bot import send_message_to_prague_channel
 
 
 def main():

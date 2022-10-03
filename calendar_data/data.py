@@ -21,5 +21,4 @@ def get_future_events(pyvo_events_url):
             event.name == "VEVENT"
             and event["dtstart"].dt.replace(tzinfo=None) > datetime.today()
         ):
-            future_events.append(event)
-    return future_events
+            yield event
