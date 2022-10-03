@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import date
 
 import requests
 
@@ -23,9 +23,9 @@ def send_message_to_prague_channel():
     events = get_future_events("https://pyvo.cz/api/series/praha-pyvo.ics")
     for event in events:
         summary = event["summary"].replace("(", "").replace(")", "")
-        event_date = event["dtstart"].dt.replace(tzinfo=None).date()
+        event_date = event["dtstart"].dt.date()
         output_event_date = event["dtstart"].dt.date().strftime("%d.%m.%Y")
-        date_difference = (event_date - datetime.today().date()).days
+        date_difference = (event_date - date.today()).days
         match date_difference:
             case 7:
                 send_message(
