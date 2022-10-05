@@ -23,7 +23,7 @@ jobs:
             python3 main.py
 workflows:
   version: 2
-  send_message_to_telegram:
+  weatherinfo:
     triggers:
       - schedule:
           cron: "* */1 * * *"
@@ -31,3 +31,5 @@ workflows:
             branches:
               only:
                 - ci
+    jobs:
+      - send
