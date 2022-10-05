@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/python:3.10.7
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: install Python requirements
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: run the app
+          command: |
+            python3 main.py
+workflows:
+  version: 2
+  default:
+    jobs:
+      - send_message_to_telegram
+  daily:
+    jobs:
+      - send_message_to_telegram
+    triggers:
+      - schedule:
+          cron: "* */1 * * *"
+          filters:
+            branches:
+              only:
+                - ci
