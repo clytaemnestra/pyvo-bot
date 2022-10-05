@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  send:
     docker:
       - image: cimg/python:3.10.7
     steps:
