@@ -23,13 +23,16 @@ jobs:
             python3 main.py
 workflows:
   version: 2
-  weatherinfo:
+  default:
+    jobs:
+      - send
+  daily:
+    jobs:
+      - send
     triggers:
       - schedule:
           cron: "* */1 * * *"
           filters:
             branches:
               only:
-                - ci
-    jobs:
-      - send
+                - master
