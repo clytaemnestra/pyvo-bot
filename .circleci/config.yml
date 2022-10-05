@@ -23,12 +23,7 @@ jobs:
             python3 main.py
 workflows:
   version: 2
-  default:
-    jobs:
-      - send_message_to_telegram
-  daily:
-    jobs:
-      - send_message_to_telegram
+  send_message_to_telegram:
     triggers:
       - schedule:
           cron: "* */1 * * *"
