@@ -32,8 +32,8 @@ workflows:
       - send
     triggers:
       - schedule:
-          cron: "30 * * * *"
+          cron: "0 10 * * *"
           filters:
             branches:
               only:
-                - ci
+                - main

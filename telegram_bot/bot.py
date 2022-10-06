@@ -27,7 +27,7 @@ def send_message_to_prague_channel():
         output_event_date = event["dtstart"].dt.date().strftime("%d.%m.%Y")
         date_difference = (event_date - datetime.today().date()).days
         match date_difference:
-            case 14:
+            case 7:
                 send_message(
                     PRAGUE_CHAT_ID,
                     f"Next week! {output_event_date}, {summary}",
