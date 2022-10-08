@@ -4,7 +4,7 @@ A bot 🤖 which reminds people that the [Pyvo](https://pyvo.cz) meetup 🍻 is 
 
 ## Usage
 
-Currently, the bot supports only [Telegram](https://telegram.org/) and can be found at https://t.me/pyvo_bot. The bot runs once per day here using the [CircleCI build](https://circleci.com/gh/honzajavorek/pyvo_bot). It loads iCalendar feed of Pyvo Praha and checks when is the next meetup. If it's about to be soon, it notifies the [Pyvo Praha](https://t.me/pyvopraha) Telegram channel.
+Currently, the bot supports only [Telegram](https://telegram.org/) and can be found at https://t.me/pyvo_bot. The bot runs once per day here using the CircleCI build. It loads iCalendar feed of Pyvo Praha and checks when is the next meetup. If it's about to be soon, it notifies the [Pyvo Praha](https://t.me/pyvopraha) Telegram channel.
 
 ## Development
 
