@@ -7,7 +7,7 @@ from calendar_data.data import get_future_events
 from typing import Dict
 
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
-PRAGUE_CHAT_ID = "-1001837942773"  # test chat
+PRAGUE_CHAT_ID = "-1001168385726"
 
 
 def send_message(chat_id: str, text: str) -> Dict[str, str]:
@@ -28,7 +28,7 @@ def send_message_to_prague_channel() -> None:
         output_event_date = event["dtstart"].dt.date().strftime("%d.%m.%Y")
         date_difference = (event_date - date.today()).days
         match date_difference:
-            case 7:
+            case 6:
                 send_message(
                     PRAGUE_CHAT_ID,
                     f"Next week! {output_event_date}, {summary}",
