@@ -4,12 +4,13 @@ from datetime import date
 import requests
 
 from calendar_data.data import get_future_events
+from typing import Dict
 
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
 PRAGUE_CHAT_ID = "-1001837942773"  # test chat
 
 
-def send_message(chat_id, text):
+def send_message(chat_id: str, text: str) -> Dict[str, str]:
     token = TELEGRAM_TOKEN
     response = requests.post(
         url=f"https://api.telegram.org/bot{token}/sendMessage",
@@ -19,7 +20,7 @@ def send_message(chat_id, text):
     return response.json()
 
 
-def send_message_to_prague_channel():
+def send_message_to_prague_channel() -> None:
     events = get_future_events("https://pyvo.cz/api/series/praha-pyvo.ics")
     for event in events:
         summary = event["summary"]
