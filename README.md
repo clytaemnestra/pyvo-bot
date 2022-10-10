@@ -25,7 +25,7 @@ python3 main.py
 * refactor code (functions could be more decoupled)
 * write tests
 
-Contributions are welcomed. 
+Contributions are welcome. 
 
 ## Credits
 
