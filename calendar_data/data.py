@@ -17,6 +17,6 @@ def get_future_events(
     for event in gcal.walk():
         if (
             event.name == "VEVENT"
-            and event["dtstart"].dt.date() > date.today()
+            and event["dtstart"].dt.date() >= date.today()
         ):
             yield event
