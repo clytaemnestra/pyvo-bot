@@ -1,13 +1,14 @@
+import logging
 import os
 from datetime import date
+from typing import Any, Dict, Generator
 
 import requests
 
-from calendar_data.data import get_future_events
-from typing import Dict
-
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
 PRAGUE_CHAT_ID = "-1001168385726"
+
+logger = logging.getLogger(__name__)
 
 
 def send_message(chat_id: str, text: str) -> Dict[str, str]:
@@ -20,26 +21,25 @@ def send_message(chat_id: str, text: str) -> Dict[str, str]:
     return response.json()
 
 
-def send_message_to_prague_channel() -> None:
-    events = get_future_events("https://pyvo.cz/api/series/praha-pyvo.ics")
+def send_notification(event: Dict[str, Any], days: int) -> None:
+    summary = event["summary"]
+    event_date = event["dtstart"].dt.date()
+    output_event_date = event_date.strftime("%d.%m.%Y")
+    date_difference = (event_date - date.today()).days
+    if date_difference == days:
+        message_text = (
+            f"Tonight! {output_event_date}, {summary}"
+            if days == 0
+            else f"{days} days! {output_event_date}, {summary}"
+        )
+        send_message(chat_id=PRAGUE_CHAT_ID, text=message_text)
+        logging.info(f"Message {message_text} sent!")
+
+
+def send_message_to_prague_channel(
+    events: Generator[Dict[str, Any], None, None]
+) -> None:
     for event in events:
-        summary = event["summary"]
-        event_date = event["dtstart"].dt.date()
-        output_event_date = event["dtstart"].dt.date().strftime("%d.%m.%Y")
-        date_difference = (event_date - date.today()).days
-        match date_difference:
-            case 6:
-                send_message(
-                    PRAGUE_CHAT_ID,
-                    f"Next week! {output_event_date}, {summary}",
-                )
-            case 3:
-                send_message(
-                    PRAGUE_CHAT_ID,
-                    f"In three days! {output_event_date}, {summary}",
-                )
-            case 0:
-                send_message(
-                    PRAGUE_CHAT_ID,
-                    f"Tonight! {output_event_date}, {summary}",
-                )
+        send_notification(event, 6)
+        send_notification(event, 3)
+        send_notification(event, 0)

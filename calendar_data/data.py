@@ -1,5 +1,6 @@
 from datetime import date
-from typing import Generator, Dict, Any
+from typing import Any, Dict, Generator
+
 import requests
 from icalendar import Calendar
 
@@ -10,13 +11,9 @@ def get_calendar_data(pyvo_events_url: str) -> bytes:
 
 
 def get_future_events(
-    pyvo_events_url: str,
+    data: bytes,
 ) -> Generator[Dict[str, Any], None, None]:
-    data = get_calendar_data(pyvo_events_url)
     gcal = Calendar.from_ical(data)
     for event in gcal.walk():
-        if (
-            event.name == "VEVENT"
-            and event["dtstart"].dt.date() >= date.today()
-        ):
+        if event.name == "VEVENT" and event["dtstart"].dt.date() >= date.today():
             yield event
